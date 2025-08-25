@@ -1,1 +1,2 @@
 # SenZei
+blind to deaf
