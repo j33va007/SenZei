@@ -3,19 +3,17 @@ import scipy.io.wavfile as wav
 from transformers import pipeline
 import pyttsx3
 
-# ---------- Settings ----------
-DURATION = 5           # seconds to record
-FS = 16000             # sample rate (Hz)
+DURATION = 5           
+FS = 16000            
 INPUT_WAV = "input.wav"
 OUTPUT_WAV = "response.wav"
-# ------------------------------
 
 def record_audio(filename=INPUT_WAV, duration=DURATION, fs=FS):
     """Record audio from the default microphone and save to a WAV file."""
     print(f"🎤 Recording for {duration} seconds... Speak now")
     # sd.rec returns an array shaped (samples, channels)
     data = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='int16')
-    sd.wait()  # wait until recording is finished
+    sd.wait()
     # Write WAV file (scipy expects integer PCM for int16)
     wav.write(filename, fs, data)
     print(f"✅ Saved recording as {filename}")
@@ -35,9 +33,9 @@ def speak_and_save(text, out_file=OUTPUT_WAV):
     """Use local Windows TTS (pyttsx3) to speak text and save to a WAV file."""
     print("🔊 Speaking and saving response...")
     engine = pyttsx3.init()
-    engine.save_to_file(text, out_file)  # save to file
-    engine.say(text)                    # speak aloud
-    engine.runAndWait()                 # block until done
+    engine.save_to_file(text, out_file)  
+    engine.say(text)                    
+    engine.runAndWait()            
     print(f"✅ Saved spoken response as {out_file}")
 
 def main():
