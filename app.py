@@ -11,17 +11,14 @@ OUTPUT_WAV = "response.wav"
 def record_audio(filename=INPUT_WAV, duration=DURATION, fs=FS):
     """Record audio from the default microphone and save to a WAV file."""
     print(f"🎤 Recording for {duration} seconds... Speak now")
-    # sd.rec returns an array shaped (samples, channels)
     data = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='int16')
     sd.wait()
-    # Write WAV file (scipy expects integer PCM for int16)
     wav.write(filename, fs, data)
     print(f"✅ Saved recording as {filename}")
 
 def transcribe_audio(filename=INPUT_WAV):
     """Transcribe the WAV file using a local Whisper model (first run will download)."""
     print("⏳ Loading ASR model (this may download model weights on first run)...")
-    # Use English-optimized small model; change to "openai/whisper-tiny.en" if low memory
     asr = pipeline("automatic-speech-recognition", model="openai/whisper-small.en")
     print("⏳ Transcribing...")
     result = asr(filename)
